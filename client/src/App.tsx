@@ -4,6 +4,11 @@ import NotFound from "@/pages/NotFound";
 import { Route, Switch } from "wouter";
 import ErrorBoundary from "./components/ErrorBoundary";
 import { ThemeProvider } from "./contexts/ThemeContext";
+import DashboardPage from "./pages/DashboardPage";
+import ChatPage from "./pages/ChatPage";
+import LotteriesPage from "./pages/LotteriesPage";
+import AnalysisPage from "./pages/AnalysisPage";
+import VaultPage from "./pages/VaultPage";
 import Home from "./pages/Home";
 
 function Router() {
@@ -11,6 +16,11 @@ function Router() {
   return (
     <Switch>
       <Route path={"/"} component={Home} />
+      <Route path={"/dashboard"} component={DashboardPage} />
+      <Route path={"/dashboard/chat"} component={ChatPage} />
+      <Route path={"/dashboard/lotteries"} component={LotteriesPage} />
+      <Route path={"/dashboard/analysis"} component={AnalysisPage} />
+      <Route path={"/dashboard/vault"} component={VaultPage} />
       <Route path={"/404"} component={NotFound} />
       {/* Final fallback route */}
       <Route component={NotFound} />
