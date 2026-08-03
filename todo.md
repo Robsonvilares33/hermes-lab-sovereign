@@ -11,12 +11,15 @@
   - [x] Implementar placeholders para rotas não concluídas (toast "Em breve").
   - [x] Criar stubs de páginas para /dashboard/chat, /dashboard/lotteries, /dashboard/analysis, /dashboard/vault.
 
-- [ ] **Fase 3: Construir interface de chat interativo com integração LLM**
-  - [ ] Desenvolver interface de chat interativo.
-  - [ ] Integrar chat com o Agente Hermes (Ollama).
-  - [ ] Persistir histórico de conversas no banco de dados (`chatSessions`, `chatMessages`).
-  - [ ] Organizar conversas por sessões com data e hora.
-  - [ ] Manter identidade consistente do agente Hermes no chat.
+- [x] **Fase 3: Construir interface de chat interativo com integração LLM**
+  - [x] Desenvolver interface de chat interativo.
+  - [x] Integrar chat com o Agente Hermes (Ollama).
+  - [x] Persistir histórico de conversas no banco de dados (`chatSessions`, `chatMessages`).
+  - [x] Organizar conversas por sessões com data e hora.
+  - [x] Manter identidade consistente do agente Hermes no chat.
+  - [x] Adicionar validação de ownership das sessões (segurança).
+  - [x] Exibir timestamps de sessões e mensagens na UI.
+  - [x] Atualizar última atividade da sessão ao receber mensagens.
 
 - [ ] **Fase 4: Implementar módulo de geração e análise de jogos de loteria**
   - [ ] Criar módulo para geração de jogos (Mega Sena, Lotomania, +Milionária).

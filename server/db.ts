@@ -89,4 +89,66 @@ export async function getUserByOpenId(openId: string) {
   return result.length > 0 ? result[0] : undefined;
 }
 
+// Chat queries
+export async function createChatSession(userId: number, title: string) {
+  const db = await getDb();
+  if (!db) {
+    throw new Error("Database not available");
+  }
+
+  const { chatSessions } = await import("../drizzle/schema");
+  const result = await db.insert(chatSessions).values({
+    userId,
+    title,
+  });
+
+  return result[0]?.insertId || 0;
+}
+
+export async function getChatSessions(userId: number) {
+  const db = await getDb();
+  if (!db) {
+    throw new Error("Database not available");
+  }
+
+  const { chatSessions } = await import("../drizzle/schema");
+  return db
+    .select()
+    .from(chatSessions)
+    .where(eq(chatSessions.userId, userId))
+    .orderBy((t) => t.updatedAt);
+}
+
+export async function getChatMessages(sessionId: number) {
+  const db = await getDb();
+  if (!db) {
+    throw new Error("Database not available");
+  }
+
+  const { chatMessages } = await import("../drizzle/schema");
+  return db
+    .select()
+    .from(chatMessages)
+    .where(eq(chatMessages.sessionId, sessionId))
+    .orderBy((t) => t.timestamp);
+}
+
+export async function addChatMessage(
+  sessionId: number,
+  role: "user" | "hermes",
+  content: string
+) {
+  const db = await getDb();
+  if (!db) {
+    throw new Error("Database not available");
+  }
+
+  const { chatMessages } = await import("../drizzle/schema");
+  await db.insert(chatMessages).values({
+    sessionId,
+    role,
+    content,
+  });
+}
+
 // TODO: add feature queries here as your schema grows.
