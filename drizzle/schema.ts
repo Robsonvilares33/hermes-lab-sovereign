@@ -47,4 +47,31 @@ export const chatMessages = mysqlTable("chat_messages", {
 export type ChatMessage = typeof chatMessages.$inferSelect;
 export type InsertChatMessage = typeof chatMessages.$inferInsert;
 
+// Lottery games tables
+export const lotteryGames = mysqlTable("lottery_games", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("user_id").notNull().references(() => users.id),
+  type: mysqlEnum("type", ["mega_sena", "lotomania", "mais_milionaria"]).notNull(),
+  numbers: text("numbers").notNull(), // JSON array of numbers
+  analysis: text("analysis"), // Analysis notes
+  confidence: int("confidence"), // Confidence percentage (0-100)
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().onUpdateNow().notNull(),
+});
+
+export type LotteryGame = typeof lotteryGames.$inferSelect;
+export type InsertLotteryGame = typeof lotteryGames.$inferInsert;
+
+export const lotteryResults = mysqlTable("lottery_results", {
+  id: int("id").autoincrement().primaryKey(),
+  type: mysqlEnum("type", ["mega_sena", "lotomania", "mais_milionaria"]).notNull(),
+  drawNumber: int("draw_number").notNull(),
+  numbers: text("numbers").notNull(), // JSON array of winning numbers
+  date: timestamp("date").notNull(),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export type LotteryResult = typeof lotteryResults.$inferSelect;
+export type InsertLotteryResult = typeof lotteryResults.$inferInsert;
+
 // TODO: Add your tables here

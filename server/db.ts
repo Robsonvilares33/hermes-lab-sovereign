@@ -151,4 +151,87 @@ export async function addChatMessage(
   });
 }
 
-// TODO: add feature queries here as your schema grows.
+// Lottery queries
+export async function createLotteryGame(
+  userId: number,
+  type: "mega_sena" | "lotomania" | "mais_milionaria",
+  numbers: number[],
+  analysis?: string,
+  confidence?: number
+) {
+  const db = await getDb();
+  if (!db) {
+    throw new Error("Database not available");
+  }
+
+  const { lotteryGames } = await import("../drizzle/schema");
+  await db.insert(lotteryGames).values({
+    userId,
+    type,
+    numbers: JSON.stringify(numbers),
+    analysis,
+    confidence,
+  });
+}
+
+export async function getLotteryGames(userId: number, type?: string) {
+  const db = await getDb();
+  if (!db) {
+    throw new Error("Database not available");
+  }
+
+  const { lotteryGames } = await import("../drizzle/schema");
+  const { and } = await import("drizzle-orm");
+  
+  if (type) {
+    return db
+      .select()
+      .from(lotteryGames)
+      .where(and(eq(lotteryGames.userId, userId), eq(lotteryGames.type, type as any)));
+  }
+
+  return db
+    .select()
+    .from(lotteryGames)
+    .where(eq(lotteryGames.userId, userId));
+}
+
+export async function addLotteryResult(
+  type: "mega_sena" | "lotomania" | "mais_milionaria",
+  drawNumber: number,
+  numbers: number[],
+  date: Date
+) {
+  const db = await getDb();
+  if (!db) {
+    throw new Error("Database not available");
+  }
+
+  const { lotteryResults } = await import("../drizzle/schema");
+  await db.insert(lotteryResults).values({
+    type,
+    drawNumber,
+    numbers: JSON.stringify(numbers),
+    date,
+  });
+}
+
+export async function getLotteryResults(type?: string) {
+  const db = await getDb();
+  if (!db) {
+    throw new Error("Database not available");
+  }
+
+  const { lotteryResults } = await import("../drizzle/schema");
+  
+  if (type) {
+    return db
+      .select()
+      .from(lotteryResults)
+      .where(eq(lotteryResults.type, type as any));
+  }
+
+  return db
+    .select()
+    .from(lotteryResults);
+}

@@ -15,6 +15,13 @@
       "when": 1783433143737,
       "tag": "0001_sour_hercules",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "5",
+      "when": 1785726887808,
+      "tag": "0002_busy_sunset_bain",
+      "breakpoints": true
     }
   ]
 }

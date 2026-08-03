@@ -21,10 +21,10 @@
   - [x] Exibir timestamps de sessões e mensagens na UI.
   - [x] Atualizar última atividade da sessão ao receber mensagens.
 
-- [ ] **Fase 4: Implementar módulo de geração e análise de jogos de loteria**
-  - [ ] Criar módulo para geração de jogos (Mega Sena, Lotomania, +Milionária).
-  - [ ] Implementar análise estatística para os jogos gerados.
-  - [ ] Exibir os jogos gerados na interface.
+- [x] **Fase 4: Implementar módulo de geração e análise de jogos de loteria**
+  - [x] Criar módulo para geração de jogos (Mega Sena, Lotomania, +Milionária).
+  - [x] Implementar análise estatística para os jogos gerados.
+  - [x] Exibir os jogos gerados na interface.
 
 - [ ] **Fase 5: Criar vault de conhecimento com persistência**
   - [ ] Desenvolver interface para o Vault de conhecimento.

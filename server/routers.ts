@@ -8,6 +8,8 @@ import {
   getChatSessions,
   getChatMessages,
   addChatMessage,
+  createLotteryGame,
+  getLotteryGames,
 } from "./db";
 import { invokeLLM } from "./_core/llm";
 
@@ -118,9 +120,66 @@ export const appRouter = router({
           await addChatMessage(input.sessionId, "hermes", assistantMessage);
         }
 
-        return { message: assistantMessage };
+                return { message: assistantMessage };
+      }),
+  }),
+
+  lottery: router({
+    generateGame: protectedProcedure
+      .input(
+        z.object({
+          type: z.enum(["mega_sena", "lotomania", "mais_milionaria"]),
+          count: z.number().default(1),
+        })
+      )
+      .mutation(async ({ ctx, input }) => {
+        // Generate random numbers based on lottery type
+        const ranges: Record<string, number> = {
+          mega_sena: 60,
+          lotomania: 100,
+          mais_milionaria: 50,
+        };
+
+        const max = ranges[input.type];
+        const count =
+          input.type === "mega_sena"
+            ? 6
+            : input.type === "lotomania"
+              ? 50
+              : 6;
+
+        const numbers = new Set<number>();
+        while (numbers.size < count) {
+          numbers.add(Math.floor(Math.random() * max) + 1);
+        }
+
+        const numbersArray = Array.from(numbers).sort((a, b) => a - b);
+        const confidence = Math.floor(Math.random() * 30) + 60; // 60-90%
+
+        // Save to database
+        await createLotteryGame(
+          ctx.user.id,
+          input.type,
+          numbersArray,
+          `Gerado automaticamente pelo Agente Hermes`,
+          confidence
+        );
+
+        return {
+          numbers: numbersArray,
+          confidence,
+        };
+      }),
+
+    getGames: protectedProcedure
+      .input(
+        z.object({
+          type: z.enum(["mega_sena", "lotomania", "mais_milionaria"]).optional(),
+        })
+      )
+      .query(async ({ ctx, input }) => {
+        return getLotteryGames(ctx.user.id, input.type);
       }),
   }),
 });
-
 export type AppRouter = typeof appRouter;
