@@ -10,6 +10,13 @@ import {
   addChatMessage,
   createLotteryGame,
   getLotteryGames,
+  createVaultDocument,
+  getVaultDocuments,
+  getVaultDocumentById,
+  updateVaultDocument,
+  deleteVaultDocument,
+  addLotteryResult,
+  getLotteryResults,
 } from "./db";
 import { invokeLLM } from "./_core/llm";
 
@@ -121,6 +128,99 @@ export const appRouter = router({
         }
 
                 return { message: assistantMessage };
+      }),
+  }),
+
+  vault: router({
+    createDocument: protectedProcedure
+      .input(
+        z.object({
+          title: z.string(),
+          content: z.string(),
+          category: z.string().optional(),
+          tags: z.array(z.string()).optional(),
+        })
+      )
+      .mutation(async ({ ctx, input }) => {
+        await createVaultDocument(
+          ctx.user.id,
+          input.title,
+          input.content,
+          input.category,
+          input.tags
+        );
+        return { success: true };
+      }),
+
+    getDocuments: protectedProcedure
+      .input(
+        z.object({
+          category: z.string().optional(),
+        })
+      )
+      .query(async ({ ctx, input }) => {
+        return getVaultDocuments(ctx.user.id, input.category);
+      }),
+
+    getDocument: protectedProcedure
+      .input(z.object({ id: z.number() }))
+      .query(async ({ ctx, input }) => {
+        return getVaultDocumentById(ctx.user.id, input.id);
+      }),
+
+    updateDocument: protectedProcedure
+      .input(
+        z.object({
+          id: z.number(),
+          title: z.string().optional(),
+          content: z.string().optional(),
+          category: z.string().optional(),
+          tags: z.array(z.string()).optional(),
+        })
+      )
+      .mutation(async ({ ctx, input }) => {
+        await updateVaultDocument(
+          ctx.user.id,
+          input.id,
+          input.title,
+          input.content,
+          input.category,
+          input.tags
+        );
+        return { success: true };
+      }),
+
+    deleteDocument: protectedProcedure
+      .input(z.object({ id: z.number() }))
+      .mutation(async ({ ctx, input }) => {
+        await deleteVaultDocument(ctx.user.id, input.id);
+        return { success: true };
+      }),
+  }),
+
+  results: router({
+    addResult: protectedProcedure
+      .input(
+        z.object({
+          type: z.enum(["mega_sena", "lotomania", "mais_milionaria"]),
+          drawNumber: z.number(),
+          numbers: z.array(z.number()),
+          date: z.date(),
+        })
+      )
+      .mutation(async ({ input }) => {
+        await addLotteryResult(input.type, input.drawNumber, input.numbers, input.date);
+        return { success: true };
+      }),
+
+    getResults: publicProcedure
+      .input(
+        z.object({
+          type: z.enum(["mega_sena", "lotomania", "mais_milionaria"]).optional(),
+        })
+      )
+      .query(async ({ input }) => {
+        return getLotteryResults(input.type);
       }),
   }),
 

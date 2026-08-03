@@ -235,3 +235,106 @@ export async function getLotteryResults(type?: string) {
     .select()
     .from(lotteryResults);
 }
+
+// Vault queries
+export async function createVaultDocument(
+  userId: number,
+  title: string,
+  content: string,
+  category?: string,
+  tags?: string[]
+) {
+  const db = await getDb();
+  if (!db) {
+    throw new Error("Database not available");
+  }
+
+  const { vaultDocuments } = await import("../drizzle/schema");
+  await db.insert(vaultDocuments).values({
+    userId,
+    title,
+    content,
+    category,
+    tags: tags ? JSON.stringify(tags) : null,
+  });
+}
+
+export async function getVaultDocuments(userId: number, category?: string) {
+  const db = await getDb();
+  if (!db) {
+    throw new Error("Database not available");
+  }
+
+  const { vaultDocuments } = await import("../drizzle/schema");
+  const { and } = await import("drizzle-orm");
+  
+  if (category) {
+    return db
+      .select()
+      .from(vaultDocuments)
+      .where(and(eq(vaultDocuments.userId, userId), eq(vaultDocuments.category, category)));
+  }
+
+  return db
+    .select()
+    .from(vaultDocuments)
+    .where(eq(vaultDocuments.userId, userId));
+}
+
+export async function getVaultDocumentById(userId: number, documentId: number) {
+  const db = await getDb();
+  if (!db) {
+    throw new Error("Database not available");
+  }
+
+  const { vaultDocuments } = await import("../drizzle/schema");
+  const { and } = await import("drizzle-orm");
+  const result = await db
+    .select()
+    .from(vaultDocuments)
+    .where(and(eq(vaultDocuments.userId, userId), eq(vaultDocuments.id, documentId)))
+    .limit(1);
+
+  return result.length > 0 ? result[0] : null;
+}
+
+export async function updateVaultDocument(
+  userId: number,
+  documentId: number,
+  title?: string,
+  content?: string,
+  category?: string,
+  tags?: string[]
+) {
+  const db = await getDb();
+  if (!db) {
+    throw new Error("Database not available");
+  }
+
+  const { vaultDocuments } = await import("../drizzle/schema");
+  const { and } = await import("drizzle-orm");
+  const updateData: Record<string, any> = {};
+
+  if (title !== undefined) updateData.title = title;
+  if (content !== undefined) updateData.content = content;
+  if (category !== undefined) updateData.category = category;
+  if (tags !== undefined) updateData.tags = JSON.stringify(tags);
+
+  await db
+    .update(vaultDocuments)
+    .set(updateData)
+    .where(and(eq(vaultDocuments.userId, userId), eq(vaultDocuments.id, documentId)));
+}
+
+export async function deleteVaultDocument(userId: number, documentId: number) {
+  const db = await getDb();
+  if (!db) {
+    throw new Error("Database not available");
+  }
+
+  const { vaultDocuments } = await import("../drizzle/schema");
+  const { and } = await import("drizzle-orm");
+  await db
+    .delete(vaultDocuments)
+    .where(and(eq(vaultDocuments.userId, userId), eq(vaultDocuments.id, documentId)));
+}

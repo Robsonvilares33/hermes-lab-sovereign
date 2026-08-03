@@ -26,30 +26,30 @@
   - [x] Implementar análise estatística para os jogos gerados.
   - [x] Exibir os jogos gerados na interface.
 
-- [ ] **Fase 5: Criar vault de conhecimento com persistência**
-  - [ ] Desenvolver interface para o Vault de conhecimento.
-  - [ ] Persistir investigações, análises e relatórios no banco de dados.
-  - [ ] Permitir consulta de documentos do Vault pelo usuário.
+- [x] **Fase 5: Criar vault de conhecimento com persistência**
+  - [x] Desenvolver interface para o Vault de conhecimento.
+  - [x] Persistir investigações, análises e relatórios no banco de dados.
+  - [x] Permitir consulta de documentos do Vault pelo usuário.
 
-- [ ] **Fase 6: Implementar painel de resultados de sorteios**
-  - [ ] Criar painel para exibição do histórico de concursos.
-  - [ ] Implementar entrada manual de resultados de sorteios.
-  - [ ] Processar e exibir resultados de concursos processados pelo sistema.
+- [x] **Fase 6: Implementar painel de resultados de sorteios**
+  - [x] Criar painel para exibição do histórico de concursos.
+  - [x] Implementar entrada manual de resultados de sorteios.
+  - [x] Processar e exibir resultados de concursos processados pelo sistema.
 
-- [ ] **Fase 7: Configurar notificações automáticas ao dono**
-  - [ ] Implementar sistema de notificações automáticas (Robson).
-  - [ ] Enviar notificações para conclusão de análise ou geração de novos jogos.
+- [x] **Fase 7: Configurar notificações automáticas ao dono**
+  - [x] Implementar sistema de notificações automáticas (Robson).
+  - [x] Enviar notificações para conclusão de análise ou geração de novos jogos.
 
-- [ ] **Fase 8: Implementar armazenamento e download de PDFs**
-  - [ ] Armazenar relatórios PDF gerados pelo sistema.
-  - [ ] Permitir download posterior de portfólios, análises e documentos do Vault.
+- [x] **Fase 8: Implementar armazenamento e download de PDFs**
+  - [x] Armazenar relatórios PDF gerados pelo sistema.
+  - [x] Permitir download posterior de portfólios, análises e documentos do Vault.
 
-- [ ] **Fase 9: Refinar visual e UX com design elegante e sofisticado**
-  - [ ] Aplicar estilo visual elegante e perfeito.
-  - [ ] Garantir acabamento refinado em todos os elementos da interface.
-  - [ ] Transmitir sofisticação e precisão técnica.
+- [x] **Fase 9: Refinar visual e UX com design elegante e sofisticado**
+  - [x] Aplicar estilo visual elegante e perfeito.
+  - [x] Garantir acabamento refinado em todos os elementos da interface.
+  - [x] Transmitir sofisticação e precisão técnica.
 
-- [ ] **Fase 10: Testar, validar e entregar o projeto**
-  - [ ] Realizar testes completos de todas as funcionalidades.
-  - [ ] Validar a integração entre os módulos.
-  - [ ] Preparar para entrega final ao usuário.
+- [x] **Fase 10: Testar, validar e entregar o projeto**
+  - [x] Realizar testes completos de todas as funcionalidades.
+  - [x] Validar a integração entre os módulos.
+  - [x] Preparar para entrega final ao usuário.

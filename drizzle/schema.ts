@@ -74,4 +74,19 @@ export const lotteryResults = mysqlTable("lottery_results", {
 export type LotteryResult = typeof lotteryResults.$inferSelect;
 export type InsertLotteryResult = typeof lotteryResults.$inferInsert;
 
+// Vault (Knowledge Base) tables
+export const vaultDocuments = mysqlTable("vault_documents", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("user_id").notNull().references(() => users.id),
+  title: varchar("title", { length: 255 }).notNull(),
+  content: text("content").notNull(),
+  category: varchar("category", { length: 100 }),
+  tags: text("tags"), // JSON array of tags
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().onUpdateNow().notNull(),
+});
+
+export type VaultDocument = typeof vaultDocuments.$inferSelect;
+export type InsertVaultDocument = typeof vaultDocuments.$inferInsert;
+
 // TODO: Add your tables here
