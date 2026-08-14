@@ -65,3 +65,10 @@
 - [x] Documentar que probabilidades teóricas permanecem inalteradas e que métricas de desempenho exigem dados reais fora da amostra.
 - [x] Definir sincronização periódica em endpoint compatível com Heartbeat, sem timers em processo.
 - [ ] Criar os jobs Heartbeat depois que a versão for publicada.
+
+## Open source e GitHub
+
+- [ ] Auditar o repositório para impedir a publicação de segredos, dados locais e artefatos de execução.
+- [ ] Criar documentação open source, licença e orientações de contribuição.
+- [ ] Criar e publicar um repositório público no GitHub.
+- [ ] Configurar um fluxo seguro de sincronização para cada atualização validada.
