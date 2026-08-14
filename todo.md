@@ -68,7 +68,9 @@
 
 ## Open source e GitHub
 
-- [ ] Auditar o repositório para impedir a publicação de segredos, dados locais e artefatos de execução.
-- [ ] Criar documentação open source, licença e orientações de contribuição.
-- [ ] Criar e publicar um repositório público no GitHub.
-- [ ] Configurar um fluxo seguro de sincronização para cada atualização validada.
+- [x] Auditar o repositório para impedir a publicação de segredos, dados locais e artefatos de execução.
+- [x] Criar documentação open source, licença e orientações de contribuição.
+- [x] Criar e publicar um repositório público no GitHub.
+- [x] Configurar um fluxo seguro de sincronização para cada atualização validada.
+- [x] Adicionar verificação automatizada de segredos e arquivos proibidos antes de cada sincronização e no CI.
+- [x] Documentar e testar a política de publicação segura para impedir a inclusão de artefatos locais e credenciais.

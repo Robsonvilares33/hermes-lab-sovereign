@@ -8,6 +8,7 @@ if [[ -z "$(git status --porcelain)" ]]; then
   exit 0
 fi
 
+./scripts/check-publication-safety.sh
 pnpm check
 pnpm test
 pnpm build
