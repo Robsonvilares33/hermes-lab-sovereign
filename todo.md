@@ -53,3 +53,15 @@
   - [x] Realizar testes completos de todas as funcionalidades.
   - [x] Validar a integração entre os módulos.
   - [x] Preparar para entrega final ao usuário.
+
+## Continuação V2.0 — Fase 2
+
+- [x] Corrigir o serviço de monitoramento para usar o padrão real de acesso ao banco do projeto.
+- [x] Integrar cliente da API pública de resultados com validação de payload, timeout e tratamento de falhas.
+- [x] Implementar geração determinística de 30 jogos sem duplicatas, dividida nas categorias A, B e C.
+- [x] Adicionar testes unitários para cliente de resultados e gerador de jogos.
+- [x] Expor a geração de 30 jogos por procedure tRPC protegida.
+- [x] Validar build, testes e saúde do servidor antes do checkpoint.
+- [x] Documentar que probabilidades teóricas permanecem inalteradas e que métricas de desempenho exigem dados reais fora da amostra.
+- [x] Definir sincronização periódica em endpoint compatível com Heartbeat, sem timers em processo.
+- [ ] Criar os jobs Heartbeat depois que a versão for publicada.

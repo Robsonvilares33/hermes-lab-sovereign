@@ -19,6 +19,29 @@ import {
   getLotteryResults,
 } from "./db";
 import { invokeLLM } from "./_core/llm";
+import { GameGenerator30 } from "./lottery/game-generator-30";
+import { calculateMegaSenaStatistics, parseNumbersJson } from "./lottery/statistics";
+import { syncLatestMegaSenaResult, syncMegaSenaHistory } from "./lottery/sync";
+
+function isMegaSenaResult(value: unknown): value is { drawNumber: number; numbers: string } {
+  return Boolean(
+    value &&
+      typeof value === "object" &&
+      "drawNumber" in value &&
+      "numbers" in value &&
+      typeof (value as { drawNumber: unknown }).drawNumber === "number" &&
+      typeof (value as { numbers: unknown }).numbers === "string"
+  );
+}
+
+async function getMegaSenaStatistics() {
+  const stored = await getLotteryResults("mega_sena");
+  const draws = stored.filter(isMegaSenaResult).map((result) => ({
+    drawNumber: result.drawNumber,
+    numbers: parseNumbersJson(result.numbers),
+  }));
+  return calculateMegaSenaStatistics(draws);
+}
 
 export const appRouter = router({
   // if you need to use socket.io, read and register route in server/_core/index.ts, all api should start with '/api/' so that the gateway can route correctly
@@ -199,6 +222,23 @@ export const appRouter = router({
   }),
 
   results: router({
+    syncLatest: protectedProcedure.mutation(async () => {
+      return syncLatestMegaSenaResult();
+    }),
+
+    syncHistory: protectedProcedure.mutation(async () => {
+      return syncMegaSenaHistory();
+    }),
+
+    getStatistics: protectedProcedure.query(async () => {
+      const statistics = await getMegaSenaStatistics();
+      return {
+        drawCount: statistics.drawCount,
+        frequency: Object.fromEntries(statistics.frequency),
+        delay: Object.fromEntries(statistics.delay),
+      };
+    }),
+
     addResult: protectedProcedure
       .input(
         z.object({
@@ -270,6 +310,29 @@ export const appRouter = router({
           confidence,
         };
       }),
+
+    generate30Games: protectedProcedure.mutation(async ({ ctx }) => {
+      const statistics = await getMegaSenaStatistics();
+      const generator = new GameGenerator30(statistics.frequency, statistics.delay);
+      const games = generator.generate30Games();
+
+      for (const game of games) {
+        await createLotteryGame(
+          ctx.user.id,
+          "mega_sena",
+          game.numbers,
+          `Categoria ${game.category} (${game.profile}); score heurístico, não probabilidade de prêmio.`,
+          game.confidence
+        );
+      }
+
+      return {
+        drawCountUsed: statistics.drawCount,
+        games,
+        agentNote:
+          "Hermes: os 30 jogos ampliam a cobertura de combinações, mas não alteram a probabilidade matemática de cada combinação individual.",
+      };
+    }),
 
     getGames: protectedProcedure
       .input(

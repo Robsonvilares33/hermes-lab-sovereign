@@ -8,6 +8,52 @@ import { registerStorageProxy } from "./storageProxy";
 import { appRouter } from "../routers";
 import { createContext } from "./context";
 import { serveStatic, setupVite } from "./vite";
+import { sdk } from "./sdk";
+import { syncLatestMegaSenaResult } from "../lottery/sync";
+import { runMonitoringSnapshot } from "../monitoring";
+import type { Request, Response } from "express";
+
+async function requireCron(req: Request, res: Response): Promise<boolean> {
+  try {
+    const user = await sdk.authenticateRequest(req);
+    if (!user.isCron || !user.taskUid) {
+      res.status(403).json({ error: "cron-only" });
+      return false;
+    }
+    return true;
+  } catch (error) {
+    res.status(403).json({ error: error instanceof Error ? error.message : "forbidden" });
+    return false;
+  }
+}
+
+async function syncMegaSenaHandler(req: Request, res: Response): Promise<void> {
+  if (!(await requireCron(req, res))) return;
+  try {
+    const result = await syncLatestMegaSenaResult();
+    res.json({ ok: true, drawNumber: result.drawNumber, stored: result.stored });
+  } catch (error) {
+    res.status(500).json({
+      error: error instanceof Error ? error.message : "sync-failed",
+      context: { url: req.originalUrl },
+      timestamp: new Date().toISOString(),
+    });
+  }
+}
+
+async function monitoringHandler(req: Request, res: Response): Promise<void> {
+  if (!(await requireCron(req, res))) return;
+  try {
+    const snapshot = await runMonitoringSnapshot();
+    res.json({ ok: true, snapshot });
+  } catch (error) {
+    res.status(500).json({
+      error: error instanceof Error ? error.message : "monitoring-failed",
+      context: { url: req.originalUrl },
+      timestamp: new Date().toISOString(),
+    });
+  }
+}
 
 function isPortAvailable(port: number): Promise<boolean> {
   return new Promise(resolve => {
@@ -44,6 +90,11 @@ async function startServer() {
       createContext,
     })
   );
+
+  // Heartbeat callbacks must be mounted before Vite/static fallthrough.
+  app.post("/api/scheduled/syncMegaSena", syncMegaSenaHandler);
+  app.post("/api/scheduled/monitoring", monitoringHandler);
+
   // development mode uses Vite, production mode uses static files
   if (process.env.NODE_ENV === "development") {
     await setupVite(app, server);
