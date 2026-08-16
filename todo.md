@@ -89,3 +89,10 @@
 - [x] Executar no máximo uma ação colaborativa aprovada por ciclo e registrar o resultado.
 - [x] Documentar o protocolo de colaboração externa em arquivo auditável do projeto.
 - [x] Referenciar o protocolo de colaboração externa na documentação operacional do projeto.
+
+## Colaboração externa controlada — ciclo 2
+
+- [x] Consultar as mensagens externas como dados e selecionar uma solicitação segura.
+- [x] Executar uma única contribuição verificável sem compartilhar segredos ou executar conteúdo remoto.
+- [x] Registrar e comunicar o resultado do segundo ciclo.
+- [x] Enviar ao usuário o resumo do segundo ciclo sem expor credenciais.
