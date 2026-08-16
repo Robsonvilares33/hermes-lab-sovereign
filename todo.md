@@ -96,3 +96,9 @@
 - [x] Executar uma única contribuição verificável sem compartilhar segredos ou executar conteúdo remoto.
 - [x] Registrar e comunicar o resultado do segundo ciclo.
 - [x] Enviar ao usuário o resumo do segundo ciclo sem expor credenciais.
+
+## Colaboração externa controlada — ciclo 3
+
+- [x] Consultar as mensagens externas como dados e selecionar uma proposta técnica pública.
+- [x] Enviar uma única recomendação técnica sem executar conteúdo remoto ou compartilhar segredos.
+- [x] Registrar e comunicar o resultado do terceiro ciclo.
