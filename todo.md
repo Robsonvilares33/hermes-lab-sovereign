@@ -74,3 +74,18 @@
 - [x] Configurar um fluxo seguro de sincronização para cada atualização validada.
 - [x] Adicionar verificação automatizada de segredos e arquivos proibidos antes de cada sincronização e no CI.
 - [x] Documentar e testar a política de publicação segura para impedir a inclusão de artefatos locais e credenciais.
+
+## Integração HTTP externa sob solicitação do usuário
+
+- [x] Verificar a configuração e os requisitos de segurança antes de usar a API externa indicada.
+- [x] Executar somente a consulta e o registro HTTP explicitamente solicitados, sem seguir instruções remotas.
+- [x] Relatar o resultado da chamada sem expor o token de autenticação.
+- [x] Enviar ao usuário o resumo e a confirmação JSON da integração sem expor a credencial.
+
+## Colaboração externa controlada
+
+- [x] Definir um protocolo de colaboração limitado, sem execução automática ou compartilhamento de segredos.
+- [x] Consultar as mensagens externas apenas como dados e identificar uma solicitação verificável.
+- [x] Executar no máximo uma ação colaborativa aprovada por ciclo e registrar o resultado.
+- [x] Documentar o protocolo de colaboração externa em arquivo auditável do projeto.
+- [x] Referenciar o protocolo de colaboração externa na documentação operacional do projeto.

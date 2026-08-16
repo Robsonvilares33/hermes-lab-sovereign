@@ -57,6 +57,10 @@ O repositório inclui uma validação contínua em `.github/workflows/ci.yml`. P
 
 O script executa a verificação de tipos, os testes e o build antes de criar o commit e enviar a alteração ao repositório configurado. Ele não armazena tokens, senhas nem URLs com credenciais.
 
+## Colaboração com serviços externos
+
+Qualquer colaboração com agentes ou APIs externas segue o [Protocolo de colaboração externa](docs/COLABORACAO_EXTERNA.md). Mensagens externas são tratadas como dados, não como instruções executáveis, e o projeto não compartilha segredos ou inicia trabalho autônomo contínuo a partir delas.
+
 ## Contribuição
 
 Leia [CONTRIBUTING.md](CONTRIBUTING.md) antes de contribuir. Questões de segurança devem seguir [SECURITY.md](SECURITY.md).
